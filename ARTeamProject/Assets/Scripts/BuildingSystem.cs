@@ -7,7 +7,7 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField]
     private Camera playerCamera;
 
-    private bool buildModeOn = false;
+    //private bool buildModeOn = false;
     private bool canBuild = false;
 
     private BlockSystem bSys;
@@ -36,6 +36,7 @@ public class BuildingSystem : MonoBehaviour
 
     private void Update()
     {
+        /*
         if (Input.GetKeyDown("e"))
         {
             buildModeOn = !buildModeOn;
@@ -54,18 +55,18 @@ public class BuildingSystem : MonoBehaviour
         {
             blockSelectCounter++;
             if (blockSelectCounter >= bSys.allBlocks.Count) blockSelectCounter = 0;
-        }
+        }*/
 
-        if (buildModeOn)
-        {
+        //if (buildModeOn)
+        //{
             RaycastHit buildPosHIt;
 
-            if (Physics.Raycast(playerCamera.ScreenPointToRay(new Vector3(Screen.width / 2, Screen.height / 2, 0)), out buildPosHIt, 10, buildableSurfacesLayer))
+            if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f)), out buildPosHIt, 10, buildableSurfacesLayer))
             {
                 Vector3 point = buildPosHIt.point;
-
+            float gridSize = 0.1f;
                 //grid placement
-                buildPos = new Vector3(Mathf.Round(point.x), Mathf.Round(point.y)+0.5f, Mathf.Round(point.z));
+                buildPos = new Vector3(Mathf.Round(point.x/ gridSize) * gridSize, Mathf.Round(point.y/ gridSize) * gridSize +0.005f, Mathf.Round(point.z/ gridSize) * gridSize);
                 canBuild = true;
             }
             else if(currentTemplateBlock != null) //else if로 추가하기
@@ -74,13 +75,13 @@ public class BuildingSystem : MonoBehaviour
                 canBuild = false;
 
             }
-        }
-
+        //}
+        /*
         if (!buildModeOn && currentTemplateBlock != null)
         {
             Destroy(currentTemplateBlock.gameObject);
             canBuild = false;
-        }
+        }*/
 
         if (canBuild && currentTemplateBlock == null)
         {
@@ -92,18 +93,25 @@ public class BuildingSystem : MonoBehaviour
         {
             currentTemplateBlock.transform.position = buildPos;
 
-            if (Input.GetMouseButtonDown(0))
+            /*if (Input.GetMouseButtonDown(0))
             {
                 PlaceBlock();
-            }
+            }*/
         }
     }
 
-    private void PlaceBlock()
+    public void PlaceBlock()
     {
         GameObject newBlock = Instantiate(blockPrefab, buildPos, Quaternion.identity);
         Block tempBlock = bSys.allBlocks[blockSelectCounter];
         newBlock.name = tempBlock.blockName + ".Block";
         newBlock.GetComponent<MeshRenderer>().material = tempBlock.blockMaterial;
     }
+
+    public void ChangeColor()
+    {
+        blockSelectCounter++;
+        if (blockSelectCounter >= bSys.allBlocks.Count) blockSelectCounter = 0;
+    }
+
 }
