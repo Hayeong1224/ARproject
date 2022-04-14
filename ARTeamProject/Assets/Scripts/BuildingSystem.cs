@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class BuildingSystem : MonoBehaviour
 {
-    [SerializeField]
-    private Camera playerCamera;
 
     //private bool buildModeOn = false;
     private bool canBuild = false;
@@ -66,7 +64,7 @@ public class BuildingSystem : MonoBehaviour
                 Vector3 point = buildPosHIt.point;
             float gridSize = 0.1f;
                 //grid placement
-                buildPos = new Vector3(Mathf.Round(point.x/ gridSize) * gridSize, Mathf.Round(point.y/ gridSize) * gridSize +0.005f, Mathf.Round(point.z/ gridSize) * gridSize);
+                buildPos = new Vector3(Mathf.Round(point.x/ gridSize) * gridSize, Mathf.Round(point.y/ gridSize) * gridSize +0.05f, Mathf.Round(point.z/ gridSize) * gridSize);
                 canBuild = true;
             }
             else if(currentTemplateBlock != null) //else if로 추가하기
