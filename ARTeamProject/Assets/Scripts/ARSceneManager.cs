@@ -35,4 +35,13 @@ public class ARSceneManager : MonoBehaviour
         }
     }
 
+    public void gotosoma()
+    {
+        SceneManager.LoadScene("soma");
+    }
+    public void gotofree()
+    {
+        SceneManager.LoadScene("Study-2");
+    }
+
 }
