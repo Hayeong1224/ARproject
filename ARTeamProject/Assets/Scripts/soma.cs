@@ -69,6 +69,7 @@ public class soma : MonoBehaviour
                 //grid placement
                 buildPos = new Vector3(Mathf.Round(point.x/ gridSize) * gridSize, Mathf.Round(point.y/ gridSize) * gridSize +0.1f, Mathf.Round(point.z/ gridSize) * gridSize);
                 canBuild = true;
+                Debug.Log(buildPosHIt.collider.name);
             }
             
             else if(currentTemplateBlock != null) //else if로 추가하기
