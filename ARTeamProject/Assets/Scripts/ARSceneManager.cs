@@ -39,6 +39,10 @@ public class ARSceneManager : MonoBehaviour
     {
         SceneManager.LoadScene("soma");
     }
+    public void gotostudy()
+    {
+        SceneManager.LoadScene("Study-3");
+    }
     public void gotofree()
     {
         SceneManager.LoadScene("Study-2");
