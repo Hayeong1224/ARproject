@@ -16,19 +16,22 @@ public class TapToPlaceOne : MonoBehaviour
     [SerializeField]
     private GameObject blockManager;
 
+    private ARPlaneManager mARPlaneManager;
+
     // raycast hits
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
     private Vector2 touchPosition;
 
     private GameObject spawnedObject;
-
+    
     private bool tap = false;
 
     void Awake()
     {
         raycastManager = GetComponent<ARRaycastManager>();
         blockManager.SetActive(false);
+        mARPlaneManager = GetComponent<ARPlaneManager>();
     }
 
     // get input in this method
@@ -67,13 +70,14 @@ public class TapToPlaceOne : MonoBehaviour
             Pose hitPose = hits[0].pose;
 
             // instantiate only one time
-            if (!tap) 
+            if (!tap)
             {
                 if (spawnedObject == null)
                 {
                     spawnedObject = Instantiate(objectToInstantiate, hitPose.position, hitPose.rotation);
                     // we can build the blocks
                     blockManager.SetActive(true);
+                    DisabledPlaneDetection();
                 }
                 else
                 {
@@ -82,9 +86,14 @@ public class TapToPlaceOne : MonoBehaviour
                 }
                 tap = true;
             }
-
-        
-
         }
+    }
+
+    //평면 인식 더 이상 하기 않게 설정
+    private void DisabledPlaneDetection()
+    {
+        mARPlaneManager.enabled = false;
+        foreach (ARPlane plane in mARPlaneManager.trackables)
+            plane.gameObject.SetActive(false);
     }
 }

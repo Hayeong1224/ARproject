@@ -28,8 +28,7 @@ public class soma : MonoBehaviour
     //private Material templateMaterial;
 
     private int blockSelectCounter = 0;
-    GameObject[] newBlock;
-    int k = 0;
+
     private void Start()
     {
         bSys = GetComponent<BlockSystem>();
@@ -105,11 +104,10 @@ public class soma : MonoBehaviour
 
     public void PlaceBlock()
     {
-        newBlock[k] = Instantiate(blockPrefab[i], currentTemplateBlock.transform.position, Quaternion.identity);
+        GameObject newBlock = Instantiate(blockPrefab[i], currentTemplateBlock.transform.position, Quaternion.identity);
         Block tempBlock = bSys.allBlocks[blockSelectCounter];
-        newBlock[k].name = tempBlock.blockName + ".Block";
-        newBlock[k].GetComponent<MeshRenderer>().material = tempBlock.blockMaterial;
-        k++;
+        newBlock.name = tempBlock.blockName + ".Block";
+        newBlock.GetComponent<MeshRenderer>().material = tempBlock.blockMaterial;
     }
 
     public void ChangeColor()
@@ -132,13 +130,15 @@ public class soma : MonoBehaviour
         Destroy(currentTemplateBlock.gameObject);
         currentTemplateBlock = Instantiate(blockTemplatePrefab[i]);
     }
-    public void destroyall()
+    public void ResetBlock()
     {
-        for (int i = 0; i < k; i++)
+        GameObject[] placedSomas;
+        placedSomas = GameObject.FindGameObjectsWithTag("PlacedSoma");
+        if (placedSomas != null)
         {
-            Destroy(newBlock[i]);
+            foreach (GameObject placedSoma in placedSomas)
+                Destroy(placedSoma);
         }
-        k = 0;
     }
 
 }

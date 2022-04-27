@@ -112,4 +112,14 @@ public class BuildingSystem : MonoBehaviour
         if (blockSelectCounter >= bSys.allBlocks.Count) blockSelectCounter = 0;
     }
 
+    public void ResetBlock()
+    {
+        GameObject[] placedBlocks;
+        placedBlocks = GameObject.FindGameObjectsWithTag("PlacedBlock");
+        if (placedBlocks != null)
+        {
+            foreach (GameObject placedBlock in placedBlocks)
+                Destroy(placedBlock);
+        }
+    }
 }
