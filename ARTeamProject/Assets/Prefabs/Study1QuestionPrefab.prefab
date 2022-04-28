@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8598839431463938064}
   - component: {fileID: 2490485231272422055}
+  - component: {fileID: 4063022732543333121}
   m_Layer: 0
   m_Name: Study1QuestionPrefab
   m_TagString: Untagged
@@ -39,9 +40,21 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1149590139813424450}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: eaf5cec451bf14348939ec59bcb513cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4063022732543333121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149590139813424450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e8aa2e0a14118d40ab7c590e713ebb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &6949712537274256203
