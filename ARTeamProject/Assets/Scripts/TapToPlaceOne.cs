@@ -98,4 +98,5 @@ public class TapToPlaceOne : MonoBehaviour
         foreach (ARPlane plane in mARPlaneManager.trackables)
             plane.gameObject.SetActive(false);
     }
+    
 }

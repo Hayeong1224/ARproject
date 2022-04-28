@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildingSystem : MonoBehaviour
+public class Re_Building : MonoBehaviour
 {
 
     //private bool buildModeOn = false;
@@ -27,6 +27,10 @@ public class BuildingSystem : MonoBehaviour
 
     private int blockSelectCounter = 0;
 
+    Vector3 rotateChange = new Vector3(0, 0, 0);
+
+
+
     private void Start()
     {
         bSys = GetComponent<BlockSystem>();
@@ -38,6 +42,7 @@ public class BuildingSystem : MonoBehaviour
         if (Input.GetKeyDown("e"))
         {
             buildModeOn = !buildModeOn;
+
             if (buildModeOn)
             {
                 Cursor.lockState = CursorLockMode.Locked;
@@ -47,6 +52,7 @@ public class BuildingSystem : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None;
             }
         }
+
         if (Input.GetKeyDown("r"))
         {
             blockSelectCounter++;
@@ -65,7 +71,7 @@ public class BuildingSystem : MonoBehaviour
             buildPos = new Vector3(Mathf.Round(point.x / gridSize) * gridSize, Mathf.Round(point.y / gridSize) * gridSize + 0.05f, Mathf.Round(point.z / gridSize) * gridSize);
             canBuild = true;
         }
-        else if (currentTemplateBlock != null) //else if·? ?ß°¡??±?
+        else if (currentTemplateBlock != null) //else if로 추가하기
         {
             Destroy(currentTemplateBlock.gameObject);
             canBuild = false;
@@ -82,13 +88,17 @@ public class BuildingSystem : MonoBehaviour
         if (canBuild && currentTemplateBlock == null)
         {
             currentTemplateBlock = Instantiate(blockTemplatePrefab, buildPos, Quaternion.identity);
+
+            currentTemplateBlock.transform.localEulerAngles = rotateChange;
+            Debug.Log(currentTemplateBlock.transform.localEulerAngles);
             //currentTemplateBlock.GetComponent<MeshRenderer>().material = templateMaterial;
         }
 
         if (canBuild && currentTemplateBlock != null)
         {
             currentTemplateBlock.transform.position = buildPos;
-
+            currentTemplateBlock.transform.localEulerAngles = rotateChange;
+            Debug.Log("2" + currentTemplateBlock.transform.localEulerAngles);
             /*if (Input.GetMouseButtonDown(0))
             {
                 PlaceBlock();
@@ -99,6 +109,7 @@ public class BuildingSystem : MonoBehaviour
     public void PlaceBlock()
     {
         GameObject newBlock = Instantiate(blockPrefab, buildPos, Quaternion.identity);
+        newBlock.transform.localEulerAngles = rotateChange;
         Block tempBlock = bSys.allBlocks[blockSelectCounter];
         newBlock.name = tempBlock.blockName + ".Block";
         newBlock.GetComponent<MeshRenderer>().material = tempBlock.blockMaterial;
@@ -119,5 +130,48 @@ public class BuildingSystem : MonoBehaviour
             foreach (GameObject placedBlock in placedBlocks)
                 Destroy(placedBlock);
         }
+    }
+    public void RotateBlocks()
+    {
+
+        Debug.Log("turn!");
+        GameObject[] placedBlocks;
+        placedBlocks = GameObject.FindGameObjectsWithTag("PlacedBlock");
+        GameObject ground = GameObject.FindWithTag("Ground");
+        //parent 
+        GameObject parentObj = new GameObject("Parent");
+        if (ground != null)
+        {
+            parentObj.transform.position = ground.transform.position;
+            Debug.Log(parentObj.transform.position);
+            ground.transform.parent = parentObj.gameObject.transform;
+        }
+        else
+        {
+            Debug.Log("No ground!");
+        }
+        if (placedBlocks != null)
+        {
+            foreach (GameObject block in placedBlocks)
+            {
+                block.transform.parent = parentObj.gameObject.transform;
+            }
+        }
+        else
+        {
+            Debug.Log("No block!");
+        }
+
+        rotateChange += new Vector3(0, 3, 0);
+        parentObj.transform.localEulerAngles = new Vector3(0, 3, 0);
+
+        //remove parent
+        foreach (GameObject block in placedBlocks)
+        {
+            block.transform.parent = null;
+        }
+        ground.transform.parent = null;
+
+
     }
 }
