@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 6521653641039219504}
   - component: {fileID: 5942995302401847966}
   - component: {fileID: 1318747415327868465}
-  - component: {fileID: -1407628679128532086}
   m_Layer: 0
   m_Name: 1
   m_TagString: PlacedBlock
@@ -65,20 +64,6 @@ Rigidbody:
   m_Interpolate: 2
   m_Constraints: 126
   m_CollisionDetection: 1
---- !u!64 &-1407628679128532086
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2450592433201292782}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!1001 &2239741081780723341
 PrefabInstance:
   m_ObjectHideFlags: 0
