@@ -29,7 +29,7 @@ public class Study1Manager : MonoBehaviour
 
     public GameObject[] questions;
 
-    public Text checkText;
+    public GameObject checkText;
 
     void Awake()
     {
@@ -42,7 +42,8 @@ public class Study1Manager : MonoBehaviour
             foreach (GameObject question in questions)
                 question.SetActive(false);
         }
-    }
+        checkText.SetActive(false);
+     }
 
     // get input in this method
     private bool TryGetTouchPosition(out Vector2 touchPosition)
@@ -85,7 +86,6 @@ public class Study1Manager : MonoBehaviour
                 if (spawnedObject == null)
                 {
                     spawnedObject = Instantiate(objectToInstantiate, hitPose.position, hitPose.rotation);
-                    spawnedObject.transform.Rotate(Vector3.up * Time.deltaTime);
                     QuestionAppear();
                     // we can build the blocks
                     //blockManager.SetActive(true);
@@ -96,7 +96,6 @@ public class Study1Manager : MonoBehaviour
                 {
                     // update position
                     spawnedObject.transform.position = hitPose.position + Vector3.up * (spawnedObject.transform.localScale.y / 2);
-                    spawnedObject.transform.Rotate(Vector3.up * Time.deltaTime);
                 }
                 tap = true;
             }
@@ -124,6 +123,6 @@ public class Study1Manager : MonoBehaviour
     public void Correct()
     {
         if (checkText != null)
-            checkText.text = "T R U E";
+            checkText.SetActive(true);
     }
 }
