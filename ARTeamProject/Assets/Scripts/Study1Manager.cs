@@ -3,18 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(ARRaycastManager))]
-public class TapToPlaceOne : MonoBehaviour
+public class Study1Manager : MonoBehaviour
 {
-
     private ARRaycastManager raycastManager;
 
     [SerializeField]
     private GameObject objectToInstantiate;
 
-    [SerializeField]
-    private GameObject blockManager;
+    //[SerializeField]
+    //private GameObject blockManager;
 
     private ARPlaneManager mARPlaneManager;
 
@@ -27,11 +27,21 @@ public class TapToPlaceOne : MonoBehaviour
 
     private bool tap = false;
 
+    public GameObject[] questions;
+
+    public Text checkText;
+
     void Awake()
     {
         raycastManager = GetComponent<ARRaycastManager>();
-        blockManager.SetActive(false);
+        //blockManager.SetActive(false);
         mARPlaneManager = GetComponent<ARPlaneManager>();
+        questions = GameObject.FindGameObjectsWithTag("Question");
+        if (questions != null)
+        {
+            foreach (GameObject question in questions)
+                question.SetActive(false);
+        }
     }
 
     // get input in this method
@@ -75,14 +85,18 @@ public class TapToPlaceOne : MonoBehaviour
                 if (spawnedObject == null)
                 {
                     spawnedObject = Instantiate(objectToInstantiate, hitPose.position, hitPose.rotation);
+                    spawnedObject.transform.Rotate(Vector3.up * Time.deltaTime);
+                    QuestionAppear();
                     // we can build the blocks
-                    blockManager.SetActive(true);
+                    //blockManager.SetActive(true);
+                    //blockManager.SendMessage("GetRotation", spawnedObject.transform.rotation);
                     DisabledPlaneDetection();
                 }
                 else
                 {
                     // update position
                     spawnedObject.transform.position = hitPose.position + Vector3.up * (spawnedObject.transform.localScale.y / 2);
+                    spawnedObject.transform.Rotate(Vector3.up * Time.deltaTime);
                 }
                 tap = true;
             }
@@ -95,5 +109,21 @@ public class TapToPlaceOne : MonoBehaviour
         mARPlaneManager.enabled = false;
         foreach (ARPlane plane in mARPlaneManager.trackables)
             plane.gameObject.SetActive(false);
+    }
+
+    public void QuestionAppear()
+    {
+        if (questions != null)
+        {
+            foreach (GameObject question in questions)
+                question.SetActive(true);
+        }
+
+    }
+
+    public void Correct()
+    {
+        if (checkText != null)
+            checkText.text = "T R U E";
     }
 }

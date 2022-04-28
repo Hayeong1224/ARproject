@@ -1357,6 +1357,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToInstantiate: {fileID: 5181962446905521147, guid: 9ede8ba76b14374408a87a99a42d0a6b, type: 3}
+  blockManager: {fileID: 1552479871}
 --- !u!114 &1063993328
 MonoBehaviour:
   m_ObjectHideFlags: 0

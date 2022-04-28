@@ -602,7 +602,7 @@ RectTransform:
   m_Children:
   - {fileID: 167377766}
   m_Father: {fileID: 1929924671}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -966,7 +966,7 @@ RectTransform:
   m_Children:
   - {fileID: 1561160734}
   m_Father: {fileID: 1929924671}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -1087,7 +1087,7 @@ RectTransform:
   m_Children:
   - {fileID: 1457830087}
   m_Father: {fileID: 1929924671}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
@@ -1220,7 +1220,7 @@ RectTransform:
   m_Children:
   - {fileID: 1843026937}
   m_Father: {fileID: 1929924671}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -1382,6 +1382,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectToInstantiate: {fileID: 5181962446905521147, guid: eb60f3957f1062449940ac176423cab1, type: 3}
+  blockManager: {fileID: 1552479871}
 --- !u!114 &1063993328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1711,7 +1712,7 @@ RectTransform:
   - {fileID: 1635264295}
   - {fileID: 59157333}
   m_Father: {fileID: 1929924671}
-  m_RootOrder: 1
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2630,12 +2631,12 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
   - {fileID: 1287918619}
-  - {fileID: 1378840094}
   - {fileID: 2051773209}
   - {fileID: 669727893}
   - {fileID: 357095712}
   - {fileID: 684834515}
   - {fileID: 668103729}
+  - {fileID: 1378840094}
   m_Father: {fileID: 449929028}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2676,7 +2677,7 @@ RectTransform:
   m_Children:
   - {fileID: 543081695}
   m_Father: {fileID: 1929924671}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0}
   m_AnchorMax: {x: 1, y: 0}
