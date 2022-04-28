@@ -13,8 +13,8 @@ public class TapToPlaceOne : MonoBehaviour
     [SerializeField]
     private GameObject objectToInstantiate;
 
-    [SerializeField]
-    private GameObject blockManager;
+   // [SerializeField]
+    //private GameObject blockManager;
 
     private ARPlaneManager mARPlaneManager;
 
@@ -30,7 +30,7 @@ public class TapToPlaceOne : MonoBehaviour
     void Awake()
     {
         raycastManager = GetComponent<ARRaycastManager>();
-        blockManager.SetActive(false);
+       // blockManager.SetActive(false);
         mARPlaneManager = GetComponent<ARPlaneManager>();
     }
 
@@ -62,21 +62,23 @@ public class TapToPlaceOne : MonoBehaviour
     private void raycastAndCreateAndUpdate()
     {
         Ray ray = Camera.main.ScreenPointToRay(touchPosition);
-
+        Debug.Log("1");
         // do raycast
-        if(raycastManager.Raycast(ray, hits, TrackableType.PlaneWithinPolygon))
+        if (raycastManager.Raycast(ray, hits, TrackableType.PlaneWithinPolygon))
         {
             // get position and rotation of the first plane hit and instantiate a gameobject
             Pose hitPose = hits[0].pose;
-
+            Debug.Log("2");
             // instantiate only one time
             if (!tap)
             {
+                Debug.Log("3");
                 if (spawnedObject == null)
                 {
+                    Debug.Log("4");
                     spawnedObject = Instantiate(objectToInstantiate, hitPose.position, hitPose.rotation);
                     // we can build the blocks
-                    blockManager.SetActive(true);
+                  // blockManager.SetActive(true);
                     DisabledPlaneDetection();
                 }
                 else

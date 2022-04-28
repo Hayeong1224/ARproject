@@ -36,6 +36,7 @@ public class Question : MonoBehaviour
         // check input
         if (TryGetTouchPosition(out touchPosition))
         {
+            Debug.Log("do touch");
             raycastAndCreateAndUpdate();
         }
     }
@@ -43,25 +44,23 @@ public class Question : MonoBehaviour
     private void raycastAndCreateAndUpdate()
     {
         Ray ray = Camera.main.ScreenPointToRay(touchPosition);
-
+        Debug.Log("do raycast");
         // do raycast
-        if (raycastManager.Raycast(ray, hits, TrackableType.PlaneWithinPolygon))
+        if (raycastManager.Raycast(ray, hits))
         {
+            Debug.Log("do rr");
             // get position and rotation of the first plane hit and instantiate a gameobject
             Pose hitPose = hits[0].pose;
-
+            spawnedObject = Instantiate(objectToInstantiate, hitPose.position, hitPose.rotation);
             // instantiate only one time
             if (!tap)
             {
                 if (spawnedObject == null)
                 {
+                    Debug.Log("touch");
                     spawnedObject = Instantiate(objectToInstantiate, hitPose.position, hitPose.rotation);
-                    // 삼지선다 답안 큐브 출력
-                    Instantiate(ACube[0], new Vector3(0, -1.5f, 4), hitPose.rotation);
-                    Instantiate(ACube[1], new Vector3(1.5f, -1.5f, 4), hitPose.rotation);
-                    Instantiate(ACube[2], new Vector3(3f, -1.5f, 4), hitPose.rotation);
-
                     DisabledPlaneDetection();
+                    QuestionCube();
                 }
                 else
                 {
