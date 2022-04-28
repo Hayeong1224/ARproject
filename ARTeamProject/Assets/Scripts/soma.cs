@@ -98,7 +98,7 @@ public class soma : MonoBehaviour
     
     public void PlaceBlock()
     {
-        GameObject newBlock = Instantiate(blockPrefab[i], currentTemplateBlock.transform.position, Quaternion.identity);
+        GameObject newBlock = Instantiate(blockPrefab[i], currentTemplateBlock.transform.position, currentTemplateBlock.transform.rotation);
         Block tempBlock = bSys.allBlocks[blockSelectCounter];
         newBlock.name = tempBlock.blockName + ".Block";
         newBlock.GetComponent<MeshRenderer>().material = tempBlock.blockMaterial;
@@ -150,9 +150,26 @@ public class soma : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("PlacedSoma"))
         {
-            Destroy(currentTemplateBlock.gameObject);
+            currentTemplateBlock.gameObject.SetActive(false);
 
         }
     }
-   
+    public void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("PlacedSoma"))
+        {
+            currentTemplateBlock.gameObject.SetActive(true);
+
+        }
+    }
+
+    public void yrotate()
+    {
+        currentTemplateBlock.transform.Rotate(0, 90, 0);
+    }
+    public void xrotate()
+    {
+        currentTemplateBlock.transform.Rotate(90, 0, 0);
+    }
+
 }
