@@ -1313,7 +1313,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40f1418f09845c344ab89532c9e3afa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectToInstantiate: {fileID: 5181962446905521147, guid: eb60f3957f1062449940ac176423cab1, type: 3}
+  objectToInstantiate: {fileID: 5181962446905521147, guid: 9ede8ba76b14374408a87a99a42d0a6b, type: 3}
 --- !u!114 &1063993328
 MonoBehaviour:
   m_ObjectHideFlags: 0
