@@ -145,7 +145,7 @@ public class soma : MonoBehaviour
         }
     }
 
-
+    /*
     public void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("PlacedSoma"))
@@ -162,7 +162,7 @@ public class soma : MonoBehaviour
 
         }
     }
-
+    */
     public void yrotate()
     {
         currentTemplateBlock.transform.Rotate(0, 90, 0);
