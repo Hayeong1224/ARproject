@@ -9,11 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5312785476941810994}
-  - component: {fileID: 7902875468072319284}
   - component: {fileID: 1493544389445324863}
   m_Layer: 8
   m_Name: somacube6
-  m_TagString: PlacedSoma
+  m_TagString: PlacedBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -36,19 +35,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &7902875468072319284
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4024842639506021737}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.2, y: 0.2, z: 0.2}
-  m_Center: {x: 0.05, y: 0.05, z: 0.05}
 --- !u!54 &1493544389445324863
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -75,6 +61,18 @@ PrefabInstance:
     - target: {fileID: 5737791702742720740, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
       propertyPath: m_Name
       value: ARBlockPlaced (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737791702742720753, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737791702742720753, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737791702742720753, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
+      propertyPath: m_Size.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5737791702742720763, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
       propertyPath: m_RootOrder
@@ -163,6 +161,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: ARBlockPlaced (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5737791702742720753, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737791702742720753, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737791702742720753, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5737791702742720763, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -250,6 +260,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: ARBlockPlaced
       objectReference: {fileID: 0}
+    - target: {fileID: 5737791702742720753, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737791702742720753, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737791702742720753, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
+      propertyPath: m_Size.z
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5737791702742720763, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -336,6 +358,18 @@ PrefabInstance:
     - target: {fileID: 5737791702742720740, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
       propertyPath: m_Name
       value: ARBlockPlaced (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737791702742720753, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737791702742720753, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737791702742720753, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
+      propertyPath: m_Size.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5737791702742720763, guid: 311429a27a1248a44b2b1882f4f3f76f, type: 3}
       propertyPath: m_RootOrder
