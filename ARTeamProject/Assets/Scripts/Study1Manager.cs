@@ -4,17 +4,22 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(ARRaycastManager))]
 public class Study1Manager : MonoBehaviour
 {
     private ARRaycastManager raycastManager;
 
+    /*
     [SerializeField]
-    private GameObject objectToInstantiate;
+    private GameObject objectToInstantiate;*/
 
-    //[SerializeField]
-    //private GameObject blockManager;
+    [SerializeField]
+    private GameObject groundToInstantiate;
+
+    [SerializeField]
+    private GameObject blockManager;
 
     private ARPlaneManager mARPlaneManager;
 
@@ -23,13 +28,21 @@ public class Study1Manager : MonoBehaviour
 
     private Vector2 touchPosition;
 
-    private GameObject spawnedObject;
+    private GameObject spawnedGround;
+    //private GameObject spawnedObject;
 
     private bool tap = false;
 
-    public GameObject[] questions;
+    private GameObject[] questions;
+    private GameObject[] buttons;
 
     public GameObject checkText;
+
+    public Transform parentCube;
+
+    static public List<Vector3> answerPos = new List<Vector3>();
+
+    //static public List<Vector3> questionPos = new List<Vector3>();
 
     void Awake()
     {
@@ -43,13 +56,20 @@ public class Study1Manager : MonoBehaviour
                 question.SetActive(false);
         }
         checkText.SetActive(false);
-     }
+        buttons = GameObject.FindGameObjectsWithTag("Button");
+        if (buttons != null)
+        {
+            foreach (GameObject button in buttons)
+                button.SetActive(false);
+        }
+
+    }
 
     // get input in this method
     private bool TryGetTouchPosition(out Vector2 touchPosition)
     {
         // touch and drag
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             touchPosition = Input.GetTouch(0).position;
             return true;
@@ -83,20 +103,59 @@ public class Study1Manager : MonoBehaviour
             // instantiate only one time
             if (!tap)
             {
-                if (spawnedObject == null)
+                if (spawnedGround == null)
                 {
-                    spawnedObject = Instantiate(objectToInstantiate, hitPose.position, hitPose.rotation);
-                    QuestionAppear();
-                    // we can build the blocks
-                    //blockManager.SetActive(true);
-                    //blockManager.SendMessage("GetRotation", spawnedObject.transform.rotation);
+                    //¶¥ »ý¼º
+                    spawnedGround = Instantiate(groundToInstantiate, hitPose.position, hitPose.rotation);
+
+                    //spawnedObject.transform.SetParent(parentCube);
+                    Debug.Log("AR Plane is built on " + hitPose.position.x + " " + hitPose.position.y + " " + hitPose.position.z);
                     DisabledPlaneDetection();
+                    ButtonAppear();
+
+                    // we can build the blocks
+                    blockManager.SetActive(true);
+                    //blockManager.SendMessage("GetRotation", spawnedObject.transform.rotation);
+
+                    /*
+                    for (int i = 0; i < spawnedObject.transform.childCount; i++)
+                    {
+                        Vector3 pos = spawnedObject.transform.GetChild(i).gameObject.transform.position;
+                        Debug.Log("block of QuestionCube is built on " + pos.x + " " + pos.y + " " + pos.z);
+
+
+                        Vector3 gridPos = new Vector3(Mathf.Round(pos.x / gridSize) * gridSize, Mathf.Round(pos.y / gridSize) * gridSize, Mathf.Round(pos.z / gridSize) * gridSize);
+                        //spawnedObject.transform.GetChild(i).gameObject.transform.position = gridPos;
+                        Debug.Log("block of QuestionCube is built on " + pos.x + " " + pos.y + " " + pos.z);
+                    }*/
+
+
+
+                    /*
+                    answerPos.Add(spawnedObject.transform.GetChild(3).gameObject.transform.position + Vector3.right * 0.1f);
+                    answerPos.Add(spawnedObject.transform.GetChild(10).gameObject.transform.position + Vector3.up * 0.1f);
+                    answerPos.Add(spawnedObject.transform.GetChild(15).gameObject.transform.position + Vector3.up * 0.1f);
+                    answerPos.Add(spawnedObject.transform.GetChild(11).gameObject.transform.position + Vector3.right * 0.1f);
+                    answerPos.Add(spawnedObject.transform.GetChild(11).gameObject.transform.position + Vector3.right * 0.2f);
+                    answerPos.Add(spawnedObject.transform.GetChild(11).gameObject.transform.position + Vector3.back * 0.1f);
+                    answerPos.Add(spawnedObject.transform.GetChild(11).gameObject.transform.position + Vector3.back * 0.1f + Vector3.right * 0.1f);
+                    answerPos.Add(spawnedObject.transform.GetChild(11).gameObject.transform.position + Vector3.back * 0.1f + Vector3.right * 0.2f);
+
+                    foreach (Vector3 pos in answerPos)
+                        Debug.Log("answerPos is " + pos.x + " " + pos.y + " " + pos.z);
+                    */
+
+                    //QuestionAppear();
+
+                    //DisabledPlaneDetection();
                 }
+                /*
                 else
                 {
                     // update position
                     spawnedObject.transform.position = hitPose.position + Vector3.up * (spawnedObject.transform.localScale.y / 2);
                 }
+                */
                 tap = true;
             }
         }
@@ -117,7 +176,15 @@ public class Study1Manager : MonoBehaviour
             foreach (GameObject question in questions)
                 question.SetActive(true);
         }
+    }
 
+    public void ButtonAppear()
+    {
+        if (buttons != null)
+        {
+            foreach (GameObject button in buttons)
+                button.SetActive(true);
+        }
     }
 
     public void Correct()
@@ -125,4 +192,24 @@ public class Study1Manager : MonoBehaviour
         if (checkText != null)
             checkText.SetActive(true);
     }
+
+    private Vector3 Parsedot(Vector3 pos)
+    {
+        var strX = pos.x.ToString("0.00");
+        var strY = pos.y.ToString("0.0");
+        var strZ = pos.z.ToString("0.00");
+        Vector3 newPos = new Vector3(float.Parse(strX), float.Parse(strY), float.Parse(strZ));
+        return newPos;
+    }
+    /*
+    public void LocateQuestionCube() 
+    {
+
+        Instantiate(groundToInstantiate, hitPose.position, hitPose.rotation);
+    }*/
+    /*
+    public Vector3 GridPos(Vector3 point)
+    {
+        return new Vector3(Mathf.Round(point.x / gridSize) * gridSize, Mathf.Round(point.y / gridSize) * gridSize + 0.05f, Mathf.Round(point.z / gridSize) * gridSize);
+    }*/
 }
