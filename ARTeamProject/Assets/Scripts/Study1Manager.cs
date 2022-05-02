@@ -11,10 +11,6 @@ public class Study1Manager : MonoBehaviour
 {
     private ARRaycastManager raycastManager;
 
-    /*
-    [SerializeField]
-    private GameObject objectToInstantiate;*/
-
     [SerializeField]
     private GameObject groundToInstantiate;
 
@@ -29,25 +25,22 @@ public class Study1Manager : MonoBehaviour
     private Vector2 touchPosition;
 
     private GameObject spawnedGround;
-    //private GameObject spawnedObject;
 
     private bool tap = false;
 
     private GameObject[] questions;
     private GameObject[] buttons;
 
-    public GameObject checkText;
+    public GameObject nextPanel;
+    public GameObject eduPointTxt;
 
-    public Transform parentCube;
-
-    static public List<Vector3> answerPos = new List<Vector3>();
-
-    //static public List<Vector3> questionPos = new List<Vector3>();
+    private int tryCount = 1;
+    static public int eduPoint = 0; 
 
     void Awake()
     {
         raycastManager = GetComponent<ARRaycastManager>();
-        //blockManager.SetActive(false);
+        blockManager.SetActive(false);
         mARPlaneManager = GetComponent<ARPlaneManager>();
         questions = GameObject.FindGameObjectsWithTag("Question");
         if (questions != null)
@@ -55,7 +48,7 @@ public class Study1Manager : MonoBehaviour
             foreach (GameObject question in questions)
                 question.SetActive(false);
         }
-        checkText.SetActive(false);
+        nextPanel.SetActive(false);
         buttons = GameObject.FindGameObjectsWithTag("Button");
         if (buttons != null)
         {
@@ -115,47 +108,8 @@ public class Study1Manager : MonoBehaviour
 
                     // we can build the blocks
                     blockManager.SetActive(true);
-                    //blockManager.SendMessage("GetRotation", spawnedObject.transform.rotation);
 
-                    /*
-                    for (int i = 0; i < spawnedObject.transform.childCount; i++)
-                    {
-                        Vector3 pos = spawnedObject.transform.GetChild(i).gameObject.transform.position;
-                        Debug.Log("block of QuestionCube is built on " + pos.x + " " + pos.y + " " + pos.z);
-
-
-                        Vector3 gridPos = new Vector3(Mathf.Round(pos.x / gridSize) * gridSize, Mathf.Round(pos.y / gridSize) * gridSize, Mathf.Round(pos.z / gridSize) * gridSize);
-                        //spawnedObject.transform.GetChild(i).gameObject.transform.position = gridPos;
-                        Debug.Log("block of QuestionCube is built on " + pos.x + " " + pos.y + " " + pos.z);
-                    }*/
-
-
-
-                    /*
-                    answerPos.Add(spawnedObject.transform.GetChild(3).gameObject.transform.position + Vector3.right * 0.1f);
-                    answerPos.Add(spawnedObject.transform.GetChild(10).gameObject.transform.position + Vector3.up * 0.1f);
-                    answerPos.Add(spawnedObject.transform.GetChild(15).gameObject.transform.position + Vector3.up * 0.1f);
-                    answerPos.Add(spawnedObject.transform.GetChild(11).gameObject.transform.position + Vector3.right * 0.1f);
-                    answerPos.Add(spawnedObject.transform.GetChild(11).gameObject.transform.position + Vector3.right * 0.2f);
-                    answerPos.Add(spawnedObject.transform.GetChild(11).gameObject.transform.position + Vector3.back * 0.1f);
-                    answerPos.Add(spawnedObject.transform.GetChild(11).gameObject.transform.position + Vector3.back * 0.1f + Vector3.right * 0.1f);
-                    answerPos.Add(spawnedObject.transform.GetChild(11).gameObject.transform.position + Vector3.back * 0.1f + Vector3.right * 0.2f);
-
-                    foreach (Vector3 pos in answerPos)
-                        Debug.Log("answerPos is " + pos.x + " " + pos.y + " " + pos.z);
-                    */
-
-                    //QuestionAppear();
-
-                    //DisabledPlaneDetection();
                 }
-                /*
-                else
-                {
-                    // update position
-                    spawnedObject.transform.position = hitPose.position + Vector3.up * (spawnedObject.transform.localScale.y / 2);
-                }
-                */
                 tap = true;
             }
         }
@@ -187,29 +141,40 @@ public class Study1Manager : MonoBehaviour
         }
     }
 
+    //choosing correct answer
     public void Correct()
     {
-        if (checkText != null)
-            checkText.SetActive(true);
+        if (nextPanel != null && eduPointTxt != null)
+        {
+            nextPanel.SetActive(true);
+            string point = eduPoint.ToString();
+            eduPointTxt.GetComponent<Text>().text = "Educational Point: ";
+        }
     }
 
-    private Vector3 Parsedot(Vector3 pos)
+    //choosing worng answer
+    public void Wrong()
     {
-        var strX = pos.x.ToString("0.00");
-        var strY = pos.y.ToString("0.0");
-        var strZ = pos.z.ToString("0.00");
-        Vector3 newPos = new Vector3(float.Parse(strX), float.Parse(strY), float.Parse(strZ));
-        return newPos;
+        tryCount++;
     }
-    /*
-    public void LocateQuestionCube() 
-    {
 
-        Instantiate(groundToInstantiate, hitPose.position, hitPose.rotation);
-    }*/
-    /*
-    public Vector3 GridPos(Vector3 point)
+    private void Point()
     {
-        return new Vector3(Mathf.Round(point.x / gridSize) * gridSize, Mathf.Round(point.y / gridSize) * gridSize + 0.05f, Mathf.Round(point.z / gridSize) * gridSize);
-    }*/
+        switch(tryCount)
+        {
+            case 1:
+                eduPoint = 100;
+                break;
+            case 2:
+                eduPoint = 70;
+                break;
+            case 3:
+                eduPoint = 50;
+                break;
+            default:
+                eduPoint = 30;
+                break;
+        }  
+    }
+
 }
