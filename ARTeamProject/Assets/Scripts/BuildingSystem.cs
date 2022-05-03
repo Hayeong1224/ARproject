@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class BuildingSystem : MonoBehaviour
 {
-
-    //private bool buildModeOn = false;
     private bool canBuild = false;
 
     private BlockSystem bSys;
@@ -22,9 +20,6 @@ public class BuildingSystem : MonoBehaviour
     [SerializeField]
     private GameObject blockPrefab;
 
-    [SerializeField]
-    //private Material templateMaterial;
-
     private int blockSelectCounter = 0;
 
     private List<Vector3> blockPos = new List<Vector3>();
@@ -39,27 +34,6 @@ public class BuildingSystem : MonoBehaviour
 
     private void Update()
     {
-        /*
-        if (Input.GetKeyDown("e"))
-        {
-            buildModeOn = !buildModeOn;
-            if (buildModeOn)
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-            }
-            else 
-            {
-                Cursor.lockState = CursorLockMode.None;
-            }
-        }
-        if (Input.GetKeyDown("r"))
-        {
-            blockSelectCounter++;
-            if (blockSelectCounter >= bSys.allBlocks.Count) blockSelectCounter = 0;
-        }*/
-
-        //if (buildModeOn)
-        //{
         RaycastHit buildPosHIt;
 
         if (Physics.Raycast(Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f)), out buildPosHIt, 10, buildableSurfacesLayer))
@@ -69,18 +43,6 @@ public class BuildingSystem : MonoBehaviour
             //grid placement
             buildPos = new Vector3(Mathf.Round(point.x / gridSize) * gridSize, Mathf.Round(point.y / gridSize) * gridSize + 0.05f, Mathf.Round(point.z / gridSize) * gridSize);
             canBuild = true;
-
-
-            /*
-            //if any block is located in buildPos -> we can not build the block there.
-            foreach (Vector3 pos in blockPos)
-            {
-                if (buildPos.Equals(pos))
-                {
-                    canBuild = false;
-                    break;
-                } 
-            }*/
             
         }
         else if (currentTemplateBlock != null) //else if¡¤? ?©¬¡Æ¢®??¡¾?
@@ -89,28 +51,15 @@ public class BuildingSystem : MonoBehaviour
             canBuild = false;
 
         }
-        //}
-        /*
-        if (!buildModeOn && currentTemplateBlock != null)
-        {
-            Destroy(currentTemplateBlock.gameObject);
-            canBuild = false;
-        }*/
 
         if (canBuild && currentTemplateBlock == null)
         {
             currentTemplateBlock = Instantiate(blockTemplatePrefab, buildPos, Quaternion.identity);
-            //currentTemplateBlock.GetComponent<MeshRenderer>().material = templateMaterial;
         }
 
         if (canBuild && currentTemplateBlock != null)
         {
             currentTemplateBlock.transform.position = buildPos;
-
-            /*if (Input.GetMouseButtonDown(0))
-            {
-                PlaceBlock();
-            }*/
         }
     }
 

@@ -32,10 +32,6 @@ public class Study1Manager : MonoBehaviour
     private GameObject[] buttons;
 
     public GameObject nextPanel;
-    public GameObject eduPointTxt;
-
-    private int tryCount = 1;
-    static public int eduPoint = 0; 
 
     void Awake()
     {
@@ -108,14 +104,13 @@ public class Study1Manager : MonoBehaviour
 
                     // we can build the blocks
                     blockManager.SetActive(true);
-
                 }
                 tap = true;
             }
         }
     }
 
-    //평면 인식 더 이상 하기 않게 설정
+    //block AR plane detection
     private void DisabledPlaneDetection()
     {
         mARPlaneManager.enabled = false;
@@ -144,38 +139,9 @@ public class Study1Manager : MonoBehaviour
     //choosing correct answer
     public void Correct()
     {
-        if (nextPanel != null && eduPointTxt != null)
+        if (nextPanel != null)
         {
             nextPanel.SetActive(true);
-            string point = eduPoint.ToString();
-            //eduPointTxt.GetComponent<Text>().text = "Educational Point: ";
-            Debug.Log(point);
         }
     }
-
-    //choosing wrong answer
-    public void Wrong()
-    {
-        tryCount++;
-    }
-
-    private void Point()
-    {
-        switch(tryCount)
-        {
-            case 1:
-                eduPoint = 100;
-                break;
-            case 2:
-                eduPoint = 70;
-                break;
-            case 3:
-                eduPoint = 50;
-                break;
-            default:
-                eduPoint = 30;
-                break;
-        }  
-    }
-
 }

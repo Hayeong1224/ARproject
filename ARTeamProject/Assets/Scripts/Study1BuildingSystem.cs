@@ -53,7 +53,7 @@ public class Study1BuildingSystem : MonoBehaviour
             buildPos = new Vector3(Mathf.Round(point.x / gridSize) * gridSize, Mathf.Round(point.y / gridSize) * gridSize + 0.05f, Mathf.Round(point.z / gridSize) * gridSize);
             canBuild = true;
         }
-        else if (currentTemplateBlock != null) //else if로 추가하기
+        else if (currentTemplateBlock != null)
         {
             Destroy(currentTemplateBlock.gameObject);
             canBuild = false;
@@ -75,13 +75,13 @@ public class Study1BuildingSystem : MonoBehaviour
 
     public void PlaceBlock()
     {
-        //아직 클릭 안 함 -> question 나오게!
+        // if question is not located, question appear
         if (!questionIsLocated)
         {
             LocateQuestion();
             questionIsLocated = true;
-        }    
-
+        }  
+        // add block
         else
         {
             GameObject newBlock = Instantiate(blockPrefab, buildPos, Quaternion.identity);
@@ -122,7 +122,7 @@ public class Study1BuildingSystem : MonoBehaviour
     public void LocateQuestion()
     {
         buildPos = new Vector3(buildPos.x, buildPos.y + 0.1f, buildPos.z);
-        //Instantiate qeustionCube
+        //Instantiate questionCube
         GameObject parent = Instantiate(objectToInstantiate, buildPos, Quaternion.identity);
 
         //questionUI appear
