@@ -24,6 +24,18 @@ public class Study1BuildingSystem : MonoBehaviour
 
     private Quaternion questionRotation;
 
+    private List<Vector3> blockPos = new List<Vector3>();
+
+    [SerializeField]
+    private GameObject objectToInstantiate;
+
+    private bool questionIsLocated = false;
+
+    [SerializeField]
+    private GameObject study1Manager;
+
+    private GameObject[] placedBlocks;
+
     private void Start()
     {
         bSys = GetComponent<BlockSystem>();
@@ -63,32 +75,69 @@ public class Study1BuildingSystem : MonoBehaviour
 
     public void PlaceBlock()
     {
-        GameObject newBlock = Instantiate(blockPrefab, buildPos, Quaternion.identity);
-        newBlock.transform.rotation = questionRotation;
-        Block tempBlock = bSys.allBlocks[blockSelectCounter];
-        newBlock.name = tempBlock.blockName + ".Block";
-        newBlock.GetComponent<MeshRenderer>().material = tempBlock.blockMaterial;
-    }
+        //아직 클릭 안 함 -> question 나오게!
+        if (!questionIsLocated)
+        {
+            LocateQuestion();
+            questionIsLocated = true;
+        }    
 
-    public void ChangeColor()
-    {
-        blockSelectCounter++;
-        if (blockSelectCounter >= bSys.allBlocks.Count) blockSelectCounter = 0;
+        else
+        {
+            GameObject newBlock = Instantiate(blockPrefab, buildPos, Quaternion.identity);
+            newBlock.transform.rotation = questionRotation;
+            //newBlock.transform.SetParent(parentCube);
+            Block tempBlock = bSys.allBlocks[blockSelectCounter];
+            newBlock.name = tempBlock.blockName + ".Block";
+            newBlock.GetComponent<MeshRenderer>().material = tempBlock.blockMaterial;
+            blockPos.Add(buildPos);
+            Debug.Log("Player build a block on" + buildPos.x + " " + buildPos.y + " " + buildPos.z);
+        }
     }
 
     public void ResetBlock()
     {
-        GameObject[] placedBlocks;
         placedBlocks = GameObject.FindGameObjectsWithTag("PlacedBlock");
         if (placedBlocks != null)
         {
             foreach (GameObject placedBlock in placedBlocks)
                 Destroy(placedBlock);
         }
+        blockPos.Clear();
     }
 
-    public void GetRotation(Quaternion rotation)
+    public void Undo()
     {
-        questionRotation = rotation;
+        placedBlocks = GameObject.FindGameObjectsWithTag("PlacedBlock");
+        if (placedBlocks != null && blockPos.Count > 0)
+        {
+            foreach (GameObject placedBlock in placedBlocks)
+                if (placedBlock.transform.position == blockPos[blockPos.Count - 1])
+                {
+                    Destroy(placedBlock);
+                    blockPos.RemoveAt(blockPos.Count - 1);
+                }
+        }
     }
+
+    public void LocateQuestion()
+    {
+        buildPos = new Vector3(buildPos.x, buildPos.y + 0.1f, buildPos.z);
+        //qeustionCube 띄우기
+        GameObject parent = Instantiate(objectToInstantiate, buildPos, Quaternion.identity);
+
+        //questionUI 띄워라.
+        study1Manager.SendMessage("QuestionAppear");
+
+        Debug.Log("The question is located on " + buildPos);
+
+        List<Vector3> QuestionPos = new List<Vector3>();
+        for (int i = 0; i < parent.transform.childCount; i++)
+        {
+            Vector3 pos = parent.transform.GetChild(i).gameObject.transform.position;
+            QuestionPos.Add(pos);
+            Debug.Log("Block of questionCube is built on " + pos.x + " " + pos.y + " " + pos.z);
+        }
+    }
+
 }

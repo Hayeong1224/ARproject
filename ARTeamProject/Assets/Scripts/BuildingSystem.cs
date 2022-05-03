@@ -27,9 +27,12 @@ public class BuildingSystem : MonoBehaviour
 
     private int blockSelectCounter = 0;
 
+    private List<Vector3> blockPos = new List<Vector3>();
+
     private void Start()
     {
         bSys = GetComponent<BlockSystem>();
+        
     }
 
     private void Update()
@@ -64,6 +67,19 @@ public class BuildingSystem : MonoBehaviour
             //grid placement
             buildPos = new Vector3(Mathf.Round(point.x / gridSize) * gridSize, Mathf.Round(point.y / gridSize) * gridSize + 0.05f, Mathf.Round(point.z / gridSize) * gridSize);
             canBuild = true;
+
+
+            /*
+            //if any block is located in buildPos -> we can not build the block there.
+            foreach (Vector3 pos in blockPos)
+            {
+                if (buildPos.Equals(pos))
+                {
+                    canBuild = false;
+                    break;
+                } 
+            }*/
+            
         }
         else if (currentTemplateBlock != null) //else if¡¤? ?©¬¡Æ¢®??¡¾?
         {
@@ -102,6 +118,8 @@ public class BuildingSystem : MonoBehaviour
         Block tempBlock = bSys.allBlocks[blockSelectCounter];
         newBlock.name = tempBlock.blockName + ".Block";
         newBlock.GetComponent<MeshRenderer>().material = tempBlock.blockMaterial;
+        blockPos.Add(buildPos);
+
     }
 
     public void ChangeColor()
@@ -119,5 +137,6 @@ public class BuildingSystem : MonoBehaviour
             foreach (GameObject placedBlock in placedBlocks)
                 Destroy(placedBlock);
         }
+        blockPos.Clear();
     }
 }

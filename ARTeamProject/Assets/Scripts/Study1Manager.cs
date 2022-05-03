@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 [RequireComponent(typeof(ARRaycastManager))]
 public class Study1Manager : MonoBehaviour
@@ -11,10 +12,10 @@ public class Study1Manager : MonoBehaviour
     private ARRaycastManager raycastManager;
 
     [SerializeField]
-    private GameObject objectToInstantiate;
+    private GameObject groundToInstantiate;
 
-    //[SerializeField]
-    //private GameObject blockManager;
+    [SerializeField]
+    private GameObject blockManager;
 
     private ARPlaneManager mARPlaneManager;
 
@@ -23,18 +24,23 @@ public class Study1Manager : MonoBehaviour
 
     private Vector2 touchPosition;
 
-    private GameObject spawnedObject;
+    private GameObject spawnedGround;
 
     private bool tap = false;
 
-    public GameObject[] questions;
+    private GameObject[] questions;
+    private GameObject[] buttons;
 
-    public GameObject checkText;
+    public GameObject nextPanel;
+    public GameObject eduPointTxt;
+
+    private int tryCount = 1;
+    static public int eduPoint = 0; 
 
     void Awake()
     {
         raycastManager = GetComponent<ARRaycastManager>();
-        //blockManager.SetActive(false);
+        blockManager.SetActive(false);
         mARPlaneManager = GetComponent<ARPlaneManager>();
         questions = GameObject.FindGameObjectsWithTag("Question");
         if (questions != null)
@@ -42,14 +48,21 @@ public class Study1Manager : MonoBehaviour
             foreach (GameObject question in questions)
                 question.SetActive(false);
         }
-        checkText.SetActive(false);
-     }
+        nextPanel.SetActive(false);
+        buttons = GameObject.FindGameObjectsWithTag("Button");
+        if (buttons != null)
+        {
+            foreach (GameObject button in buttons)
+                button.SetActive(false);
+        }
+
+    }
 
     // get input in this method
     private bool TryGetTouchPosition(out Vector2 touchPosition)
     {
         // touch and drag
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             touchPosition = Input.GetTouch(0).position;
             return true;
@@ -83,19 +96,19 @@ public class Study1Manager : MonoBehaviour
             // instantiate only one time
             if (!tap)
             {
-                if (spawnedObject == null)
+                if (spawnedGround == null)
                 {
-                    spawnedObject = Instantiate(objectToInstantiate, hitPose.position, hitPose.rotation);
-                    QuestionAppear();
-                    // we can build the blocks
-                    //blockManager.SetActive(true);
-                    //blockManager.SendMessage("GetRotation", spawnedObject.transform.rotation);
+                    //¶¥ »ý¼º
+                    spawnedGround = Instantiate(groundToInstantiate, hitPose.position, hitPose.rotation);
+
+                    //spawnedObject.transform.SetParent(parentCube);
+                    Debug.Log("AR Plane is built on " + hitPose.position.x + " " + hitPose.position.y + " " + hitPose.position.z);
                     DisabledPlaneDetection();
-                }
-                else
-                {
-                    // update position
-                    spawnedObject.transform.position = hitPose.position + Vector3.up * (spawnedObject.transform.localScale.y / 2);
+                    ButtonAppear();
+
+                    // we can build the blocks
+                    blockManager.SetActive(true);
+
                 }
                 tap = true;
             }
@@ -117,12 +130,51 @@ public class Study1Manager : MonoBehaviour
             foreach (GameObject question in questions)
                 question.SetActive(true);
         }
-
     }
 
+    public void ButtonAppear()
+    {
+        if (buttons != null)
+        {
+            foreach (GameObject button in buttons)
+                button.SetActive(true);
+        }
+    }
+
+    //choosing correct answer
     public void Correct()
     {
-        if (checkText != null)
-            checkText.SetActive(true);
+        if (nextPanel != null && eduPointTxt != null)
+        {
+            nextPanel.SetActive(true);
+            string point = eduPoint.ToString();
+            eduPointTxt.GetComponent<Text>().text = "Educational Point: ";
+        }
     }
+
+    //choosing worng answer
+    public void Wrong()
+    {
+        tryCount++;
+    }
+
+    private void Point()
+    {
+        switch(tryCount)
+        {
+            case 1:
+                eduPoint = 100;
+                break;
+            case 2:
+                eduPoint = 70;
+                break;
+            case 3:
+                eduPoint = 50;
+                break;
+            default:
+                eduPoint = 30;
+                break;
+        }  
+    }
+
 }
