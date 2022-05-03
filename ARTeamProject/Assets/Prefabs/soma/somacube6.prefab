@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1493544389445324863}
   m_Layer: 8
   m_Name: somacube6
-  m_TagString: PlacedBlock
+  m_TagString: PlacedSoma
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

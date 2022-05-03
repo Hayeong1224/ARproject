@@ -33,7 +33,7 @@ public class soma : MonoBehaviour
     //private Material templateMaterial;
 
     private int blockSelectCounter = 0;
-    
+    public AudioSource clickSound;
     
     private void Start()
     {
@@ -88,7 +88,7 @@ public class soma : MonoBehaviour
     {
         if (colmanager.rendcheck == false)
         {
-           
+            clickSound.Play();
             GameObject newBlock = Instantiate(blockPrefab[i], currentTemplateBlock.transform.position, currentTemplateBlock.transform.rotation);
 
             Block tempBlock = bSys.allBlocks[blockSelectCounter];
@@ -112,9 +112,11 @@ public class soma : MonoBehaviour
         }
         Destroy(currentTemplateBlock.gameObject);
         currentTemplateBlock = Instantiate(blockTemplatePrefab[i]);
+        clickSound.Play();
     }
     public void ResetBlock()
     {
+        clickSound.Play();
         GameObject[] placedSomas;
         placedSomas = GameObject.FindGameObjectsWithTag("PlacedSoma");
         if (placedSomas != null)
@@ -127,10 +129,12 @@ public class soma : MonoBehaviour
 
     public void yrotate()
     {
+        clickSound.Play();
         currentTemplateBlock.transform.Rotate(0, 90, 0);
     }
     public void xrotate()
     {
+        clickSound.Play();
         currentTemplateBlock.transform.Rotate(90, 0, 0);
     }
 

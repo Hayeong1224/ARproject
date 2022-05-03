@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class ARSceneManager : MonoBehaviour
 {
+    public AudioSource clicksound;
     private Scene MyScene;
     public void GotoMainScene()
     {
@@ -19,8 +20,14 @@ public class ARSceneManager : MonoBehaviour
         MyScene = SceneManager.GetActiveScene();
         SceneManager.LoadScene(sceneName, LoadSceneMode.Single);
         SceneManager.UnloadSceneAsync(MyScene);
-    }
+  
 
+    }
+    public void soundclick()
+    {
+        clicksound.Play();
+    }
+   
     int ClickCount = 0;
     void Update()
     {
