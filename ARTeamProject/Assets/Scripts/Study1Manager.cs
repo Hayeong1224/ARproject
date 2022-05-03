@@ -94,10 +94,9 @@ public class Study1Manager : MonoBehaviour
             {
                 if (spawnedGround == null)
                 {
-                    //¶¥ »ý¼º
+                    //create virtual ground to place the question and blocks.
                     spawnedGround = Instantiate(groundToInstantiate, hitPose.position, hitPose.rotation);
 
-                    //spawnedObject.transform.SetParent(parentCube);
                     Debug.Log("AR Plane is built on " + hitPose.position.x + " " + hitPose.position.y + " " + hitPose.position.z);
                     DisabledPlaneDetection();
                     ButtonAppear();
