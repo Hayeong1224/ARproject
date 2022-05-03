@@ -86,7 +86,6 @@ public class Study1BuildingSystem : MonoBehaviour
         {
             GameObject newBlock = Instantiate(blockPrefab, buildPos, Quaternion.identity);
             newBlock.transform.rotation = questionRotation;
-            //newBlock.transform.SetParent(parentCube);
             Block tempBlock = bSys.allBlocks[blockSelectCounter];
             newBlock.name = tempBlock.blockName + ".Block";
             newBlock.GetComponent<MeshRenderer>().material = tempBlock.blockMaterial;
@@ -123,10 +122,10 @@ public class Study1BuildingSystem : MonoBehaviour
     public void LocateQuestion()
     {
         buildPos = new Vector3(buildPos.x, buildPos.y + 0.1f, buildPos.z);
-        //qeustionCube ¶ç¿ì±â
+        //Instantiate qeustionCube
         GameObject parent = Instantiate(objectToInstantiate, buildPos, Quaternion.identity);
 
-        //questionUI ¶ç¿ö¶ó.
+        //questionUI appear
         study1Manager.SendMessage("QuestionAppear");
 
         Debug.Log("The question is located on " + buildPos);

@@ -29,6 +29,8 @@ public class BuildingSystem : MonoBehaviour
 
     private List<Vector3> blockPos = new List<Vector3>();
 
+    private GameObject[] placedBlocks;
+
     private void Start()
     {
         bSys = GetComponent<BlockSystem>();
@@ -130,7 +132,6 @@ public class BuildingSystem : MonoBehaviour
 
     public void ResetBlock()
     {
-        GameObject[] placedBlocks;
         placedBlocks = GameObject.FindGameObjectsWithTag("PlacedBlock");
         if (placedBlocks != null)
         {
@@ -138,5 +139,19 @@ public class BuildingSystem : MonoBehaviour
                 Destroy(placedBlock);
         }
         blockPos.Clear();
+    }
+
+    public void Undo()
+    {
+        placedBlocks = GameObject.FindGameObjectsWithTag("PlacedBlock");
+        if (placedBlocks != null && blockPos.Count > 0)
+        {
+            foreach (GameObject placedBlock in placedBlocks)
+                if (placedBlock.transform.position == blockPos[blockPos.Count - 1])
+                {
+                    Destroy(placedBlock);
+                    blockPos.RemoveAt(blockPos.Count - 1);
+                }
+        }
     }
 }
