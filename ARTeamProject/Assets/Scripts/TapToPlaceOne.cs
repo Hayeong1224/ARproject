@@ -79,17 +79,12 @@ public class TapToPlaceOne : MonoBehaviour
                     blockManager.SetActive(true);
                     DisabledPlaneDetection();
                 }
-                else
-                {
-                    // update position
-                    spawnedObject.transform.position = hitPose.position + Vector3.up * (spawnedObject.transform.localScale.y / 2);
-                }
                 tap = true;
             }
         }
     }
 
-    //평면 인식 더 이상 하기 않게 설정
+    // block ar plane detection
     private void DisabledPlaneDetection()
     {
         mARPlaneManager.enabled = false;
