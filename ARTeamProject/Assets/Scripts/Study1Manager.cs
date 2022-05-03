@@ -148,6 +148,7 @@ public class Study1Manager : MonoBehaviour
         {
             nextPanel.SetActive(true);
             string point = eduPoint.ToString();
+            Debug.Log("---------------------------------------------- your point is " + eduPointTxt.GetComponent<Text>().text);
             eduPointTxt.GetComponent<Text>().text = "Educational Point: ";
         }
     }

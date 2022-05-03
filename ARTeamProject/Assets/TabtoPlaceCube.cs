@@ -6,18 +6,21 @@ using UnityEngine.XR.ARSubsystems;
 
 public class TabtoPlaceCube : MonoBehaviour
 {
-    GameObject TrueCanvas, NextCanvas;
+    public LayerMask cubelayer;
 
     private ARRaycastManager raycastManager;
+    //답 리스트
+    public List<GameObject> AnswerObject;
 
-    public GameObject AnswerObject;
-
+    //문제 리스트
     [SerializeField]
-    private GameObject objectToInstantiate;
+    private List<GameObject> objectToInstantiate;
 
+    GameObject TrueCanvas,NextCanvas;
 
     private ARPlaneManager mARPlaneManager;
 
+    int num = 0;
     // raycast hits
     private List<ARRaycastHit> hits = new List<ARRaycastHit>();
 
@@ -30,7 +33,6 @@ public class TabtoPlaceCube : MonoBehaviour
     void Awake()
     {
         raycastManager = GetComponent<ARRaycastManager>();
-
         mARPlaneManager = GetComponent<ARPlaneManager>();
         TrueCanvas = GameObject.FindGameObjectWithTag("TrueText");
         NextCanvas = GameObject.FindGameObjectWithTag("Next");
@@ -66,32 +68,28 @@ public class TabtoPlaceCube : MonoBehaviour
     private void raycastAndCreateAndUpdate()
     {
         Ray ray = Camera.main.ScreenPointToRay(touchPosition);
-
         // do raycast
-        if (raycastManager.Raycast(ray, hits))
+        if (raycastManager.Raycast(ray, hits, TrackableType.PlaneWithinPolygon))
         {
             // get position and rotation of the first plane hit and instantiate a gameobject
             Pose hitPose = hits[0].pose;
-            Debug.Log("1");
-            // instantiate only one time
             if (!tap)
             {
-                Debug.Log("2");
                 if (spawnedObject == null)
                 {
-                    spawnedObject = Instantiate(objectToInstantiate, hitPose.position, hitPose.rotation);
-                    // we can build the blocks
-                    
+                    spawnedObject = Instantiate(objectToInstantiate[num], hitPose.position, hitPose.rotation);
+
                     DisabledPlaneDetection();
+
+                    QuestionCube();
                 }
                 else
                 {
-                    // update position
                     spawnedObject.transform.position = hitPose.position + Vector3.up * (spawnedObject.transform.localScale.y / 2);
                 }
                 tap = true;
             }
-            QuestionCube();
+        
         }
     }
 
@@ -106,16 +104,25 @@ public class TabtoPlaceCube : MonoBehaviour
     {
         Ray ray = Camera.main.ScreenPointToRay(touchPosition);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, cubelayer))
         {
             if (Input.touchCount > 0)
             {
-                if (hit.collider.gameObject.name == AnswerObject.name)
+                if (hit.collider.gameObject.name == AnswerObject[num].name)
                 {
                     Debug.Log("True " + hit.collider.gameObject);
+                    if (num <=1)
+                    {
+                        TrueCanvas.SetActive(true);
+                        //사운드 넣기 -맞음
+                    }
+                    else
+                    {
+                        NextCanvas.SetActive(true);
+                        //사운드 넣기 -mission complete!
+                    }
 
-
-                    Destroy(objectToInstantiate);
+                    Destroy(objectToInstantiate[num]);
 
                 }
                 else
@@ -125,5 +132,12 @@ public class TabtoPlaceCube : MonoBehaviour
                 }
             }
         }
+    }
+    public void next_question()
+    {
+        //문제 번호
+        num++;
+        tap = false;
+        
     }
 }
