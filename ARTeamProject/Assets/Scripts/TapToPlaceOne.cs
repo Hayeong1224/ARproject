@@ -27,6 +27,8 @@ public class TapToPlaceOne : MonoBehaviour
 
     private bool tap = false;
 
+    public GameObject AnswerObject;
+
     void Awake()
     {
         raycastManager = GetComponent<ARRaycastManager>();
