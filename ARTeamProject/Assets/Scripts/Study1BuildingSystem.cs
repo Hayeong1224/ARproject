@@ -26,8 +26,6 @@ public class Study1BuildingSystem : MonoBehaviour
 
     private List<Vector3> blockPos = new List<Vector3>();
 
-    public Transform parentCube;
-
     [SerializeField]
     private GameObject objectToInstantiate;
 
@@ -97,12 +95,6 @@ public class Study1BuildingSystem : MonoBehaviour
         }
     }
 
-    public void ChangeColor()
-    {
-        blockSelectCounter++;
-        if (blockSelectCounter >= bSys.allBlocks.Count) blockSelectCounter = 0;
-    }
-
     public void ResetBlock()
     {
         placedBlocks = GameObject.FindGameObjectsWithTag("PlacedBlock");
@@ -128,19 +120,24 @@ public class Study1BuildingSystem : MonoBehaviour
         }
     }
 
-    /*
-    public void GetRotation(Quaternion rotation)
-    {
-        questionRotation = rotation;
-    }*/
-
     public void LocateQuestion()
     {
         buildPos = new Vector3(buildPos.x, buildPos.y + 0.1f, buildPos.z);
         //qeustionCube ¶ç¿ì±â
-        Instantiate(objectToInstantiate, buildPos, Quaternion.identity);
+        GameObject parent = Instantiate(objectToInstantiate, buildPos, Quaternion.identity);
 
         //questionUI ¶ç¿ö¶ó.
         study1Manager.SendMessage("QuestionAppear");
+
+        Debug.Log("The question is located on " + buildPos);
+
+        List<Vector3> QuestionPos = new List<Vector3>();
+        for (int i = 0; i < parent.transform.childCount; i++)
+        {
+            Vector3 pos = parent.transform.GetChild(i).gameObject.transform.position;
+            QuestionPos.Add(pos);
+            Debug.Log("Block of questionCube is built on " + pos.x + " " + pos.y + " " + pos.z);
+        }
     }
+
 }
